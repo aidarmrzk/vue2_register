@@ -57,6 +57,7 @@
             </div>
             <button class="form__agreement-button" type="submit" :disabled="!confirm" :class="{disabled: !confirm}">Зарегистрироваться</button>
         </div>
+        <success-component v-if="isRegistered"/>
     </form>
 </template>
 
@@ -74,6 +75,7 @@ import FormPassword from "@/components/FormPassword.vue";
 import FormSelect from "@/components/FormSelect.vue";
 import FormToggle from "@/components/FormToggle.vue";
 import FormCheckbox from "@/components/FormCheckbox.vue";
+import SuccessComponent from "@/components/SuccessComponent.vue";
 
 export default {
     name: 'FormComponent',
@@ -82,7 +84,8 @@ export default {
         FormPassword,
         FormSelect,
         FormToggle,
-        FormCheckbox
+        FormCheckbox,
+        SuccessComponent
     },
     data() {
         return {
@@ -159,9 +162,7 @@ export default {
                 public: true,
             },
             confirm: true,
-            validationItems: {
-
-            }
+            isRegistered: false,
         };
     },
     mounted() {
@@ -235,10 +236,11 @@ export default {
     
                 axios.post('https://example.com/api/form', data)
                     .then(response => {
-                    console.log('Успешно отправлено:', response.data);
+                        this.isRegistered = true;
+                        console.log('Успешно отправлено:', response.data);
                     })
                     .catch(error => {
-                    console.error('Ошибка при отправке:', error.response.data);
+                        console.error('Ошибка при отправке:', error.response.data);
                     });
             }
              
